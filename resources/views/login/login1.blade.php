@@ -40,14 +40,21 @@
                   <div class="text-center">
                     <h1 class="h4 text-gray-900 mb-4">Login Page</h1>
                   </div>
+                  
                   <form class="user" action="{{ url('/postlogin') }}" method="post" autocomplete="off">
                     @method('post')
                     @csrf
+                      @if(session('error'))
+                      <div class="form-group mt-0 mb-0">
+                        <p class="mt-3 text-red text-center mt-0 mb-0">{{ session('error') }}</p>
+                      </div>
+                      <br>
+                      @endif
                     <div class="form-group">
-                      <input type="email" class="form-control form-control-user" id="email" name="email" placeholder="Enter Email Address...">
+                      <input type="email" class="form-control form-control-user" id="email" name="email" value="{{ old('email') }}" placeholder="Enter Email Address...">
                     </div>
                     <div class="form-group">
-                      <input type="password" class="form-control form-control-user" id="password" name="password" placeholder="Password">
+                      <input type="password" class="form-control form-control-user" id="password" name="password" value="{{ old('password') }}" placeholder="Password">
                     </div>
                     <button type="submit" class="btn btn-primary btn-user btn-block">
                       Login

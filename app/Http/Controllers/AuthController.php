@@ -30,7 +30,7 @@ class AuthController extends Controller
                 return redirect()->route('ortu');
             }
         }
-        return redirect('/login');
+        return redirect()->back()->withInput()->with('error', 'Invalid Account!');
         // dd($request->all());
         // return view('admin.index');
     }
