@@ -44,6 +44,8 @@ Route::group(['middleware' => ['auth', 'checkRole:admin,superadmin']], function 
 
     //data kms
     Route::get('/d_kms', 'KmsController@index');
+    Route::post('/d_kms', 'KmsController@store');
+    Route::post('/autocomplete/fetch', 'KmsController@fetch')->name('autocomplete.fetch');
     // Route::get('/user', 'pagesController@user');
 });
 

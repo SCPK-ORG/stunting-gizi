@@ -142,9 +142,14 @@
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+            <h1 class="h3 mb-0 text-gray-800">Tabel KMS</h1>
             <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
           </div>
+          <button class="btn btn-success d-block" type="button" href="#" data-toggle="modal" data-target="#tambahKMSModal">
+            <i class="fas fa-address-book  fa-sm fa-fw mr-2 text-white-400"></i>
+            Tambah Data KMS
+          </button>
+          <br>
 
           <!-- Content Row -->
           <div class="row">
@@ -446,19 +451,36 @@
   </a>
 
   <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="tambahKMSModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Anda yakin ingin keluar ?</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Tambah Data KMS</h5>
           <button class="close" type="button" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">×</span>
           </button>
         </div>
-        <div class="modal-body">Jika anda keluar maka aktivitas anda akan di akhiri.</div>
+        <div class="modal-body">
+          <form action="{{ url('/d_kms') }}" method="post" autocomplete="off" id="postKMS">
+            @method('post')
+            <div class="form-group">
+              <label for="nama">Nama Balita</label>
+              <input type="text" id="id_balita" name="id_balita" class="form-control"  style="display:none;" id="exampleFormControlInput1" placeholder="Enter your name...">
+              <input type="text" id="nama" name="nama" class="form-control" id="exampleFormControlInput1" placeholder="Enter your name...">
+              <div id="nama_list" style="z-index:30 !important;">
+              </div>              
+              {{ csrf_field() }}
+            </div>
+            <div class="form-group">
+              <label for="berat_badan">Berat Badan</label>
+              <input type="text" id="berat_badan" name="berat_badan" class="form-control" id="exampleFormControlInput1" placeholder="Enter your name...">
+            </div>
+        </div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Batal</button>
-          <a class="btn btn-primary" href="{{ url('/logout') }}">Keluar</a>
+          <button class="btn btn-secondary" type="submit">Submit</button>
+          </form>
+          <!-- <a class="btn btn-primary" href="{{ url('/logout') }}">Keluar</a> -->
         </div>
       </div>
     </div>
@@ -481,6 +503,96 @@
   <script src="{{ asset('assets/js/demo/chart-area-demo.js') }}"></script>
   <script src="{{ asset('assets/js/demo/chart-pie-demo.js') }}"></script>
 
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
 </body>
 
 </html>
+
+<script>
+$(document).ready(function(){
+
+    $('#nama').keyup(function(){ 
+        let query = $(this).val();
+        if(query != '')
+        {
+         let _token = $('input[name="_token"]').val();
+         $.ajax({
+            url:"{{ route('autocomplete.fetch') }}",
+            method:"POST",
+            data:{query:query, _token:_token},
+            success:function(data){
+              // let res = '';
+              // res = data.responseJSON;
+              // console.log(res);
+              $('#nama_list').fadeIn();  
+              $('#nama_list').html(data);
+            }
+         });
+        }
+        else{
+          $('.nama_list').remove();
+        }
+    });
+
+    $(document).on('click', 'li', function(){
+        let id = $(this).attr('id');
+        console.log(id);  
+        $('#nama').val($(this).text());
+        $('#id_balita').val(id);
+        $('#nama_list').fadeOut();  
+    });
+
+    $('#postKMS').on('submit', function(e) {
+      e.preventDefault();
+
+      // var current = $(this).val();
+      // var destination = $(this).val();
+      // var departure_date = $(this).val();
+      // var trip_duration = $(this).val();
+      // var note = $(this).val();
+
+      // $.ajaxSetup({
+      //     headers: {
+      //       'X-CSRF-TOKEN': $('inpt[name="__token"]').attr('value')
+      //     }
+      // });
+
+      $.ajax({
+          url: "{{ url('/d_kms') }}",
+          method: 'post',
+          data: $('#postKMS').serialize(),
+          // headers: {
+          //   'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          // },
+
+          // dataType: 'JSON',
+          cache: false,
+          success: function(response) {
+            // swal("Success!", val, "success");
+            res = response.responseJSON;
+            console.log(res);
+            // window.location.href = "{{-- url('/d_balita') --}}";
+          },
+          error: function(xhr) {
+            var res = '';
+            res = xhr.responseJSON;
+            console.log(res);
+            if ($.isEmptyObject(res) == false) {
+              // $.each(res.errors, function(key, val) {
+              //   text += val + "\n"
+              // });
+              // Swal.fire(
+              //   "Invalid!", text, "error"
+              // );
+              $.each(res.errors, function(key, val) {
+                Swal.fire("Invalid!", val, "error");
+              });
+            }
+          }
+      });
+  });
+    
+});
+
+</script>

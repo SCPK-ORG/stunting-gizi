@@ -8,7 +8,7 @@ class PagesController extends Controller
 {
     public function index()
     {
-        return view('landingpage');
+        return redirect('/login');
     }
 
     public function login()
