@@ -19,7 +19,11 @@ class KmsController extends Controller
      */
     public function index()
     {
-        $kms = Kms::all();
+        $kms = Kms::leftJoin('balitas', 'kms.id_balita', '=', 'balitas.id_balita')
+                    ->select('kms.*', 'balitas.*')
+                    ->get();
+        
+        // dd($kms);
         $balitas = Balita::all();
         return view('admin.d_kms', compact('kms', 'balitas'));
     }
@@ -67,20 +71,48 @@ class KmsController extends Controller
 
             $antopometris = Antopometri::where('umur', $m)
                                         ->where('jenis_kelamin', $balitas->jenis_kelamin)
-                                        ->get();
+                                        ->first();
             
             $nis = $request->berat_badan;
-            $nmbr = $antopometris->pluck('median')->toArray();
-            $nmbr = $nmbr[0];
+            $nmbr = $antopometris->median;
+            // $nmbr = $nmbr[0];
             if($nis < $nmbr)
             {
-                $nsbr = $antopometris->pluck('median')->toArray();
+                $nsbr = $antopometris->min1sd;
+                // $nsbr = $nsbr[0];
+                $zscore = ($nis - $nmbr)/($nmbr - $nsbr);
             }else
             {
-
+                $nsbr = $antopometris->plus1sd;
+                // $nsbr = $nsbr[0];
+                $zscore = ($nis - $nmbr)/($nsbr - $nmbr);
             }
             // $nmbr = $antopometris->all('median');
-            dd($antopometris);
+            // dd($zscore);
+            // $status_gizi = "";
+
+            if($zscore < -3){
+                $status_gizi = "Gizi Buruk";
+            }else if($zscore < -2){
+                $status_gizi = "Gizi Kurang";
+            }else if($zscore <= 2){
+                $status_gizi = "Gizi Baik";
+            }else if($zscore > 2){
+                $status_gizi = "Gizi Lebih";
+            }
+
+            // dd($antopometris->id);
+
+            $kms = new Kms;
+            $kms->id_balita = $balitas->id_balita;
+            $kms->umur = $m;
+            $kms->berat_badan = $nis;
+            $kms->id_antopometri = $antopometris->id;
+            $kms->z_score = $zscore;
+            $kms->status_gizi = $status_gizi;
+            $kms->save();
+            // dd($kms);
+            return redirect()->back();
         }
         else
         {

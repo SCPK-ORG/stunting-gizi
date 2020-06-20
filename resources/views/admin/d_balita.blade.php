@@ -152,7 +152,7 @@
           <br>
 
           <!-- Content Row SCPK -->
-          <table class="table table-responsive-lg">
+          <table class="table table-hover table-responsive-lg">
             <thead>
               <tr class="text-dark">
                 <th scope="col">No</th>
@@ -178,18 +178,19 @@
                   <td>{{ $balita->alamat_ortu }}</td>
                   <td>{{ $balita->no_hp_ortu }}</td>
                   <td>
-                    <form action="{{ url('/d_balitas/'.$balita->id_balitas.'/destroy') }}" method="post">
+                    <form action="{{ url('/d_balitas/'.$balita->id_balitas.'/destroy') }}" method="post" class="d-inline-block">
                       @csrf
                       @method('delete')
                       <button type="submit" class="btn btn-danger btn- py-0">Hapus</button>
                     </form>
-                  </td>
-                  <td>
-                    <form action="{{ url('/d_balitas/'.$balita->id_balitas.'/destroy') }}" method="post">
+                    <form action="{{ url('/d_balitas/'.$balita->id_balitas.'/destroy') }}" method="post" class="d-inline-block">
                       @csrf
                       @method('delete')
                       <button type="submit" class="btn btn-danger btn- py-0">Edit</button>
                     </form>
+                  </td>
+                  <td>
+                    
                   </td>
                 </tr>
                 @endforeach
@@ -380,11 +381,4 @@
       });
   });
 
-  // $(function() {
-  //       $('#tambahAnggotaModal').on('hidden.bs.modal', function(){
-  //           $(this).removeData('bs.modal');
-  //       });
-  //   });
-  // $modal = $('#tambahAnggotaModal');
-  //   $modal.find('#postAnggota')[0].reset();
 </script>

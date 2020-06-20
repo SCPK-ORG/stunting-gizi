@@ -152,7 +152,7 @@
           <br>
 
           <!-- Content Row SCPK -->
-          <table class="table table-responsive-lg">
+          <table class="table table-hover table-responsive-lg">
             <thead>
               <tr class="text-dark">
                 <th scope="col">#</th>

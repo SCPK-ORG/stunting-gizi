@@ -151,6 +151,53 @@
           </button>
           <br>
 
+          <!-- Tabel Content KMS -->
+          <table class="table table-hover table-responsive-lg">
+            <thead>
+              <tr class="text-dark">
+                <th scope="col">No</th>
+                <th scope="col">Nama Balita</th>
+                <th scope="col">Jenis Kelamin</th>
+                <th scope="col">Umur</th>
+                <th scope="col">Berat Badan</th>
+                <th scope="col">Z-Score</th>
+                <th scope="col">Status Gizi</th>
+                <!-- <th scope="col">Alamat Orangtua</th>
+                <th scope="col">Nomor HP</th> -->
+              </tr>
+            </thead>
+            <tbody>
+              @if($kms->isEmpty() == false)
+                @foreach($kms as $index => $value)
+                <tr>
+                  <th scope="row">{{ $index +1 }}</th>
+                  <td>{{ $value->nama }}</td>
+                  <td>{{ $value->jenis_kelamin }}</td>
+                  <td>{{ $value->umur }}</td>
+                  <td>{{ $value->berat_badan }}</td>
+                  <td>{{ $value->z_score }}</td>
+                  <td>{{ $value->status_gizi }}</td>
+                  <td>
+                    <form action="{{ url('/d_kms/'.$value->id.'/destroy') }}" method="post" class="d-inline-block">
+                      @csrf
+                      @method('delete')
+                      <button type="submit" class="btn btn-danger btn- py-0">Hapus</button>
+                    </form>
+                    <form action="{{ url('/d_kms/'.$value->id.'/destroy') }}" method="post" class="d-inline-block">
+                      @csrf
+                      @method('delete')
+                      <button type="submit" class="btn btn-danger btn- py-0">Edit</button>
+                    </form>
+                  </td>
+                  <td>
+                    
+                  </td>
+                </tr>
+                @endforeach
+              @endif
+            </tbody>
+          </table>
+
           <!-- Content Row -->
           <div class="row">
 
@@ -522,9 +569,6 @@ $(document).ready(function(){
             method:"POST",
             data:{query:query, _token:_token},
             success:function(data){
-              // let res = '';
-              // res = data.responseJSON;
-              // console.log(res);
               $('#nama_list').fadeIn();  
               $('#nama_list').html(data);
             }
@@ -537,7 +581,7 @@ $(document).ready(function(){
 
     $(document).on('click', 'li', function(){
         let id = $(this).attr('id');
-        console.log(id);  
+        // console.log(id);  
         $('#nama').val($(this).text());
         $('#id_balita').val(id);
         $('#nama_list').fadeOut();  
@@ -545,12 +589,6 @@ $(document).ready(function(){
 
     $('#postKMS').on('submit', function(e) {
       e.preventDefault();
-
-      // var current = $(this).val();
-      // var destination = $(this).val();
-      // var departure_date = $(this).val();
-      // var trip_duration = $(this).val();
-      // var note = $(this).val();
 
       // $.ajaxSetup({
       //     headers: {
@@ -572,19 +610,13 @@ $(document).ready(function(){
             // swal("Success!", val, "success");
             res = response.responseJSON;
             console.log(res);
-            // window.location.href = "{{-- url('/d_balita') --}}";
+            window.location.href = "{{ url('/d_kms') }}";
           },
           error: function(xhr) {
             var res = '';
             res = xhr.responseJSON;
             console.log(res);
             if ($.isEmptyObject(res) == false) {
-              // $.each(res.errors, function(key, val) {
-              //   text += val + "\n"
-              // });
-              // Swal.fire(
-              //   "Invalid!", text, "error"
-              // );
               $.each(res.errors, function(key, val) {
                 Swal.fire("Invalid!", val, "error");
               });
