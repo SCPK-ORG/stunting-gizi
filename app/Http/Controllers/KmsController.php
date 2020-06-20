@@ -190,4 +190,19 @@ class KmsController extends Controller
             // return response()->json(['data' => $data->all()], 200);
         }
     }
+
+    public function chart(Request $request)
+    {
+        // dd($request->all());
+        $kms = Kms::leftJoin('balitas', 'kms.id_balita', '=', 'balitas.id_balita')
+                    ->select('kms.*', 'balitas.*')
+                    ->where('id', '=', $request->id)
+                    ->get();
+
+        return response()->json(['kms' => $kms->all()], 200);
+        
+        // dd($kms);
+        $balitas = Balita::all();
+        return view('admin.d_kms', compact('kms', 'balitas'));
+    }
 }

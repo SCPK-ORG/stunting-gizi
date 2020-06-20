@@ -70,6 +70,13 @@
           <span>KMS</span></a>
       </li>
 
+      <!-- Nav Item - Grafik Balita -->
+      <li class="nav-item">
+        <a class="nav-link" href="{{ url('/d_kms') }}">
+          <i class="fas fa-fw fa-table"></i>
+          <span>Grafik Balita</span></a>
+      </li>
+
       <!-- Divider -->
       <hr class="sidebar-divider d-none d-md-block">
 
