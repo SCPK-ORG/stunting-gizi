@@ -23,7 +23,7 @@ class GrafiksController extends Controller
         
         // dd($kms);
         $balitas = Balita::all();
-        return view('admin.d_kms', compact('kms', 'balitas'));
+        return view('admin.d_grafik', compact('kms', 'balitas'));
     }
 
     /**
@@ -90,5 +90,32 @@ class GrafiksController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function chart(Request $request)
+    {
+        // dd($request->all());
+        $kms = Kms::rightJoin('balitas', 'kms.id_balita', '=', 'balitas.id_balita')
+                    ->select('kms.*', 'balitas.*')
+                    ->where('kms.id_balita', '=', $request->id)
+                    ->get();
+        
+        //menyiapkan data untuk chart
+        //kategori berdasarkan tanggal input
+        $categories = [];
+        $berat = [];
+        $nama = [];
+        $statusgizi = [];
+        foreach ($kms as $key) {
+            $categories[] = $month = date("M",strtotime($key->created_at));
+            $berat[] = $key->berat_badan;
+            $nama[] = $key->nama;
+            $statusgizi[] = $key->status_gizi;
+        }
+        $nama = $nama[0];
+        // dd($categories);
+
+        return response()->json(['kms' => $kms->all(), 'categories' => $categories, 'berat' => $berat, 'nama' => $nama, 'statusgizi' => $statusgizi], 200);
+        
     }
 }

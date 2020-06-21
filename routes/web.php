@@ -49,7 +49,7 @@ Route::group(['middleware' => ['auth', 'checkRole:admin,superadmin']], function 
 
     //chart
     Route::get('/d_grafik', 'GrafiksController@index');
-    Route::post('/d_kms/chart', 'KmsController@chart')->name('kms.chart');
+    Route::post('/d_grafik/chart', 'GrafiksController@chart')->name('kms.chart');
     // Route::get('/user', 'pagesController@user');
 });
 

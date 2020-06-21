@@ -559,7 +559,8 @@
   <script src="{{ asset('assets/js/demo/chart-area-demo.js') }}"></script>
   <script src="{{ asset('assets/js/demo/chart-pie-demo.js') }}"></script>
 
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+<!-- alert -->
+  <script src="{{ asset('assets/lib/SweetAlert2/sweetalert2.js') }}"></script>
 
 </body>
 
@@ -634,6 +635,7 @@ $(document).ready(function(){
       });
     });
 
+ 
     function addRowHandlers() {
       let table = document.getElementById("dataKMS");
       let rows = table.getElementsByTagName("tr");

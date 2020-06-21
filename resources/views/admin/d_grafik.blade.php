@@ -65,14 +65,14 @@
       </li>
 
       <!-- Nav Item - KMS -->
-      <li class="nav-item active">
+      <li class="nav-item">
         <a class="nav-link" href="{{ url('/d_kms') }}">
           <i class="fas fa-fw fa-table"></i>
           <span>KMS</span></a>
       </li>
 
       <!-- Nav Item - Grafik Balita -->
-      <li class="nav-item">
+      <li class="nav-item active">
         <a class="nav-link" href="{{ url('/d_grafik') }}">
           <i class="fas fa-fw fa-table"></i>
           <span>Grafik Balita</span></a>
@@ -150,54 +150,54 @@
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Tabel KMS</h1>
+            <h1 class="h3 mb-0 text-gray-800">Data Balita</h1>
             <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
           </div>
-          <button class="btn btn-success d-block" type="button" href="#" data-toggle="modal" data-target="#tambahKMSModal">
+          <!-- <button class="btn btn-success d-block" type="button" href="#" data-toggle="modal" data-target="#tambahKMSModal">
             <i class="fas fa-address-book  fa-sm fa-fw mr-2 text-white-400"></i>
             Tambah Data KMS
-          </button>
-          <br>
+          </button> -->
+          <!-- <br> -->
 
           <!-- Tabel Content KMS -->
-          <table class="table table-hover table-responsive-lg" id="dataKMS">
+          <table class="table table-hover table-responsive-lg" id="dataBalitaKMS">
             <thead>
               <tr class="text-dark">
                 <th scope="col">No</th>
                 <th scope="col">Nama Balita</th>
                 <th scope="col">Jenis Kelamin</th>
-                <th scope="col">Umur</th>
-                <th scope="col">Berat Badan</th>
-                <th scope="col">Z-Score</th>
-                <th scope="col">Status Gizi</th>
-                <!-- <th scope="col">Alamat Orangtua</th>
-                <th scope="col">Nomor HP</th> -->
+                <th scope="col">Tempat Lahir</th>
+                <th scope="col">Tanggal Lahir</th>
+                <th scope="col">Nama Orangtua</th>
+                <th scope="col">Alamat Orangtua</th>
+                <th scope="col">Nomor HP</th>
               </tr>
             </thead>
             <tbody>
-              @if($kms->isEmpty() == false)
-                @foreach($kms as $index => $value)
+              @if($balitas->isEmpty() == false)
+                @foreach($balitas as $index => $balita)
                 <tr>
                   <th scope="row">{{ $index +1 }}</th>
-                  <td class="d-none">{{ $value->id }}</td>
-                  <td>{{ $value->nama }}</td>
-                  <td>{{ $value->jenis_kelamin }}</td>
-                  <td>{{ $value->umur }}</td>
-                  <td>{{ $value->berat_badan }}</td>
-                  <td>{{ $value->z_score }}</td>
-                  <td>{{ $value->status_gizi }}</td>
-                  <td>
-                    <form action="{{ url('/d_kms/'.$value->id.'/destroy') }}" method="post" class="d-inline-block">
+                  <td class="d-none">{{ $balita->id_balita }}</td>
+                  <td>{{ $balita->nama }}</td>
+                  <td>{{ $balita->jenis_kelamin }}</td>
+                  <td>{{ $balita->tempat_lahir }}</td>
+                  <td>{{ $balita->tanggal_lahir }}</td>
+                  <td>{{ $balita->nama_ortu }}</td>
+                  <td>{{ $balita->alamat_ortu }}</td>
+                  <td>{{ $balita->no_hp_ortu }}</td>
+                  {{--<td>
+                    <form action="{{ url('/d_balitas/'.$balita->id_balitas.'/destroy') }}" method="post" class="d-inline-block">
                       @csrf
                       @method('delete')
                       <button type="submit" class="btn btn-danger btn- py-0">Hapus</button>
                     </form>
-                    <form action="{{ url('/d_kms/'.$value->id.'/destroy') }}" method="post" class="d-inline-block">
+                    <form action="{{ url('/d_balitas/'.$balita->id_balitas.'/destroy') }}" method="post" class="d-inline-block">
                       @csrf
                       @method('delete')
                       <button type="submit" class="btn btn-danger btn- py-0">Edit</button>
                     </form>
-                  </td>
+                  </td>--}}
                   <td>
                     
                   </td>
@@ -208,7 +208,7 @@
           </table>
 
           <!-- Content Row -->
-          <div class="row">
+          {{--<div class="row">
 
             <!-- Earnings (Monthly) Card Example -->
             <div class="col-xl-3 col-md-6 mb-4">
@@ -286,82 +286,14 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div>--}}
 
-          <!-- Content Row Chart -->
-
-          <div class="row">
-
-            <!-- Area Chart -->
-            <div class="col-xl-8 col-lg-7">
-              <div class="card shadow mb-4">
-                <!-- Card Header - Dropdown -->
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
-                  <div class="dropdown no-arrow">
-                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                      <div class="dropdown-header">Dropdown Header:</div>
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                  </div>
-                </div>
-                <!-- Card Body -->
-                <div class="card-body">
-                  <div class="chart-area">
-                    <canvas id="lineChartKMSCanvas"></canvas>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Pie Chart -->
-            <div class="col-xl-4 col-lg-5">
-              <div class="card shadow mb-4">
-                <!-- Card Header - Dropdown -->
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
-                  <div class="dropdown no-arrow">
-                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                      <div class="dropdown-header">Dropdown Header:</div>
-                      <a class="dropdown-item" href="#">Action</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                  </div>
-                </div>
-                <!-- Card Body -->
-                <div class="card-body">
-                  <div class="chart-pie pt-4 pb-2">
-                    <canvas id="myPieChart"></canvas>
-                  </div>
-                  <div class="mt-4 text-center small">
-                    <span class="mr-2">
-                      <i class="fas fa-circle text-primary"></i> Direct
-                    </span>
-                    <span class="mr-2">
-                      <i class="fas fa-circle text-success"></i> Social
-                    </span>
-                    <span class="mr-2">
-                      <i class="fas fa-circle text-info"></i> Referral
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <!-- content chart grafik -->
+          <div class="row mx-auto mb-1 d-none" id="lineChartKMSCanvas" style="height:300px;min-width:100px;max-width:2000px;">
           </div>
 
           <!-- Content Row -->
-          <div class="row">
+          {{--<div class="row">
 
             <!-- Content Column -->
             <div class="col-lg-6 mb-4">
@@ -477,7 +409,7 @@
               </div>
 
             </div>
-          </div>
+          </div>--}}
 
         </div>
         <!-- /.container-fluid -->
@@ -552,22 +484,19 @@
   <!-- Custom scripts for all pages-->
   <script src="{{ asset('assets/js/sb-admin-2.min.js') }}"></script>
 
-  <!-- Page level plugins -->
-  <script src="{{ asset('assets/lib/chart.js/Chart.min.js') }}"></script>
-
-  <!-- Page level custom scripts -->
-  <script src="{{ asset('assets/js/demo/chart-area-demo.js') }}"></script>
-  <script src="{{ asset('assets/js/demo/chart-pie-demo.js') }}"></script>
-
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+  <!-- alert -->
+  <script src="{{ asset('assets/lib/SweetAlert2/sweetalert2.js') }}"></script>
+  
+  <script src="{{ asset('assets/lib/Highcharts/highcharts.js') }}"></script>
+  <!-- <script src="https://code.highcharts.com/highcharts.js"></script> -->
+  
 
 </body>
 
 </html>
-{{--
 <script>
 $(document).ready(function(){
-
+    var kategori = [];
     $('#nama').keyup(function(){ 
         let query = $(this).val();
         if(query != '')
@@ -618,13 +547,13 @@ $(document).ready(function(){
           success: function(response) {
             // swal("Success!", val, "success");
             res = response.responseJSON;
-            console.log(res);
+            // console.log(res);
             window.location.href = "{{ url('/d_kms') }}";
           },
           error: function(xhr) {
             var res = '';
             res = xhr.responseJSON;
-            console.log(res);
+            // console.log(res);
             if ($.isEmptyObject(res) == false) {
               $.each(res.errors, function(key, val) {
                 Swal.fire("Invalid!", val, "error");
@@ -635,7 +564,7 @@ $(document).ready(function(){
     });
 
     function addRowHandlers() {
-      let table = document.getElementById("dataKMS");
+      let table = document.getElementById("dataBalitaKMS");
       let rows = table.getElementsByTagName("tr");
       for (i = 0; i < rows.length; i++) {
         let currentRow = table.rows[i];
@@ -644,9 +573,12 @@ $(document).ready(function(){
             try {
               let cell = row.getElementsByTagName("td")[0];
               let id = cell.innerHTML;
+              // console.log(id);
+              $( "#lineChartKMSCanvas" ).removeClass( "d-none" ).addClass( "d-flex" );
               chartKMS(id);
             } catch (error) {
-              console.log(error);
+              $( "#lineChartKMSCanvas" ).removeClass( "d-flex" ).addClass( "d-none" );
+              // console.log(error);
             }
           };
         };
@@ -656,28 +588,106 @@ $(document).ready(function(){
     window.onload = addRowHandlers();
 
     function chartKMS(id) {
-      console.log(id);
+      // console.log(id);
       let _token = $('meta[name="csrf-token"]').attr('content');
+      try {
+        $.ajax({
+          url:"{{ route('kms.chart') }}",
+          method:"POST",
+          data:{id:id, _token:_token},
+          success:function(data){
+            // jQuery.parseJSON(JSON.stringify(data));
+            // console.log(this.data)
+            // var res = '';
+            // res = data.responseJSON;
+            // options.xAxis.categories = data.categories;
+            // options.series = response.series;
+            // chart1 = new Highcharts.Chart(options);
+            graphChart(data)
+            // $.each(data.categories, function(key, val) {
+            //   kategori.push(val);
+            // });
+            // console.log(kategori);
+            // $('#nama_list').fadeIn();  
+            // $('#nama_list').html(data);
+          }
+        });
+      } catch (error) {
+        $( "#lineChartKMSCanvas" ).removeClass( "d-flex" ).addClass( "d-none" );
+      }
+    }
+    
+    function graphChart(data){
+      
+      Highcharts.chart('lineChartKMSCanvas', {
 
-      // $.ajaxSetup({
-      //     headers: {
-      //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-      //     }
-      // });
+        title: {
+            text: 'Laporan Grafik Hasil KMS ' + data.nama
+        },
 
-      $.ajax({
-        url:"{{ route('kms.chart') }}",
-        method:"POST",
-        data:{id:id, _token:_token},
-        success:function(data){
-          console.log(data)
-          // $('#nama_list').fadeIn();  
-          // $('#nama_list').html(data);
+        subtitle: {
+            // text: 'Source: thesolarfoundation.com'
+        },
+
+        yAxis: {
+            title: {
+                text: 'BB(KG)'
+            }
+        },
+
+        xAxis: {
+            categories : data.categories,
+            // accessibility: {
+            //     rangeDescription: 'Range: 2010 to 2017'
+            // }
+        },
+
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle'
+        },
+
+        plotOptions: {
+            series: {
+                label: {
+                    connectorAllowed: false
+                },
+                // pointStart: 2010
+            }
+        },
+
+        series: [
+          {
+            name: 'Berat',
+            data:  data.berat
+          }, 
+          // {
+          //   name: 'Status Gizi',
+          //   data: data.statusgizi
+          // }, 
+        ],
+
+        responsive: {
+            rules: [{
+                condition: {
+                    minWidth: 100,
+                    maxWidth: 2000
+                },
+                chartOptions: {
+                    legend: {
+                        layout: 'horizontal',
+                        align: 'center',
+                        verticalAlign: 'bottom',
+                        // width: '800px',
+                    }
+                }
+            }]
         }
+
       });
-    } 
+    }
     
 });
 
 </script>
---}}

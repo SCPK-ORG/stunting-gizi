@@ -72,7 +72,7 @@
 
       <!-- Nav Item - Grafik Balita -->
       <li class="nav-item">
-        <a class="nav-link" href="{{ url('/d_kms') }}">
+        <a class="nav-link" href="{{ url('/d_grafik') }}">
           <i class="fas fa-fw fa-table"></i>
           <span>Grafik Balita</span></a>
       </li>
@@ -178,6 +178,7 @@
                 <tr>
                   <th scope="row">{{ $index +1 }}</th>
                   <td>{{ $balita->nama }}</td>
+                  <td>{{ $balita->id_balita }}</td>
                   <td>{{ $balita->jenis_kelamin }}</td>
                   <td>{{ $balita->tempat_lahir }}</td>
                   <td>{{ $balita->tanggal_lahir }}</td>
@@ -185,14 +186,14 @@
                   <td>{{ $balita->alamat_ortu }}</td>
                   <td>{{ $balita->no_hp_ortu }}</td>
                   <td>
-                    <form action="{{ url('/d_balitas/'.$balita->id_balitas.'/destroy') }}" method="post" class="d-inline-block">
-                      @csrf
+                    <form action="{{ url('/d_balitas/'.$balita->id_balita.'/destroy') }}" method="post" class="d-inline-block">
                       @method('delete')
+                      @csrf
                       <button type="submit" class="btn btn-danger btn- py-0">Hapus</button>
                     </form>
-                    <form action="{{ url('/d_balitas/'.$balita->id_balitas.'/destroy') }}" method="post" class="d-inline-block">
-                      @csrf
+                    <form action="{{ url('/d_balitas/'.$balita->id_balita.'/destroy') }}" method="post" class="d-inline-block">
                       @method('delete')
+                      @csrf
                       <button type="submit" class="btn btn-danger btn- py-0">Edit</button>
                     </form>
                   </td>
@@ -262,7 +263,7 @@
           </button>
         </div>
         <div class="modal-body">
-          <form action="{{-- url('/d_balita') --}}" method="post" id="postBalita" autocomplete="off">
+          <form action="{{-- url('/d_balita') --}}" method="" id="postBalita" autocomplete="off">
             @method('post')
             @csrf
             <div class="form-group">
@@ -308,7 +309,6 @@
           <div class="modal-footer">
             <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
             <button class="btn btn-primary" type="submit" value="submit" >Submit</button>
-            <!-- <a class="btn btn-primary" href="{{ url('/logout') }}">Logout</a> -->
           </div>
         </form>
       </div>
@@ -331,7 +331,9 @@
   <!-- Page level custom scripts -->
   <script src="{{ asset('assets/js/demo/chart-area-demo.js') }}"></script>
   <script src="{{ asset('assets/js/demo/chart-pie-demo.js') }}"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+  
+  <!-- alert -->
+  <script src="{{ asset('assets/lib/SweetAlert2/sweetalert2.js') }}"></script>
 
 </body>
 

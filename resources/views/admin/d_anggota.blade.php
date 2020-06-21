@@ -72,7 +72,7 @@
 
       <!-- Nav Item - Grafik Balita -->
       <li class="nav-item">
-        <a class="nav-link" href="{{ url('/d_kms') }}">
+        <a class="nav-link" href="{{ url('/d_grafik') }}">
           <i class="fas fa-fw fa-table"></i>
           <span>Grafik Balita</span></a>
       </li>
@@ -315,7 +315,9 @@
   <!-- Page level custom scripts -->
   <script src="{{ asset('assets/js/demo/chart-area-demo.js') }}"></script>
   <script src="{{ asset('assets/js/demo/chart-pie-demo.js') }}"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+  
+  <!-- alert -->
+  <script src="{{ asset('assets/lib/SweetAlert2/sweetalert2.js') }}"></script>
 
 </body>
 

@@ -70,6 +70,13 @@
           <span>KMS</span></a>
       </li>
 
+      <!-- Nav Item - Grafik Balita -->
+      <li class="nav-item">
+        <a class="nav-link" href="{{ url('/d_grafik') }}">
+          <i class="fas fa-fw fa-table"></i>
+          <span>Grafik Balita</span></a>
+      </li>
+
       <!-- Divider -->
       <hr class="sidebar-divider d-none d-md-block">
 
@@ -613,6 +620,7 @@
   <!-- Page level custom scripts -->
   <script src="{{ asset('assets/js/demo/chart-area-demo.js') }}"></script>
   <script src="{{ asset('assets/js/demo/chart-pie-demo.js') }}"></script>
+  <script src="{{ asset('assets/lib/SweetAlert2/sweetalert2.js') }}"></script>
 
 </body>
 
