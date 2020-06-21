@@ -603,7 +603,14 @@ $(document).ready(function(){
             // options.xAxis.categories = data.categories;
             // options.series = response.series;
             // chart1 = new Highcharts.Chart(options);
-            graphChart(data)
+            if(data.nama != "" || data.nama != null){
+              graphChart(data)
+            }
+            else{
+              $( "#lineChartKMSCanvas" ).removeClass( "d-flex" );
+              // $( "#lineChartKMSCanvas" ).removeClass( "d-flex" ).addClass( "d-none" );
+            }
+            
             // $.each(data.categories, function(key, val) {
             //   kategori.push(val);
             // });

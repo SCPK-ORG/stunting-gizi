@@ -94,28 +94,39 @@ class GrafiksController extends Controller
 
     public function chart(Request $request)
     {
-        // dd($request->all());
-        $kms = Kms::rightJoin('balitas', 'kms.id_balita', '=', 'balitas.id_balita')
-                    ->select('kms.*', 'balitas.*')
-                    ->where('kms.id_balita', '=', $request->id)
-                    ->get();
         
-        //menyiapkan data untuk chart
-        //kategori berdasarkan tanggal input
-        $categories = [];
-        $berat = [];
-        $nama = [];
-        $statusgizi = [];
-        foreach ($kms as $key) {
-            $categories[] = $month = date("M",strtotime($key->created_at));
-            $berat[] = $key->berat_badan;
-            $nama[] = $key->nama;
-            $statusgizi[] = $key->status_gizi;
-        }
-        $nama = $nama[0];
-        // dd($categories);
+        try {
+            // dd($request->all());
+            $kms = Kms::rightJoin('balitas', 'kms.id_balita', '=', 'balitas.id_balita')
+                        ->select('kms.*', 'balitas.*')
+                        ->where('kms.id_balita', '=', $request->id)
+                        ->get();
 
-        return response()->json(['kms' => $kms->all(), 'categories' => $categories, 'berat' => $berat, 'nama' => $nama, 'statusgizi' => $statusgizi], 200);
+            //menyiapkan data untuk chart
+            //kategori berdasarkan tanggal input
+            $categories = [];
+            $berat = [];
+            $nama = [];
+            $statusgizi = [];
+            foreach ($kms as $key) {
+                $categories[] = $month = date("M",strtotime($key->created_at));
+                $berat[] = $key->berat_badan;
+                $nama[] = $key->nama;
+                $statusgizi[] = $key->status_gizi;
+            }
+            // dd($categories . ' ' . $berat . ' ' . $statusgizi . ' ' . $nama);
+            if(!empty($nama))
+                $nama = $nama[0];
+            else
+                $nama = "";
+            // dd($nama);
+            return response()->json(['kms' => $kms->all(), 'categories' => $categories, 'berat' => $berat, 'nama' => $nama, 'statusgizi' => $statusgizi], 200);
+        } catch (Exception $e) {
+            // dd($e);
+            return $e;
+        }
+
+        
         
     }
 }
