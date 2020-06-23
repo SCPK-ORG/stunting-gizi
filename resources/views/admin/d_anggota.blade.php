@@ -308,13 +308,6 @@
 
   <!-- Custom scripts for all pages-->
   <script src="{{ asset('assets/js/sb-admin-2.min.js') }}"></script>
-
-  <!-- Page level plugins -->
-  <script src="{{ asset('assets/lib/chart.js/Chart.min.js') }}"></script>
-
-  <!-- Page level custom scripts -->
-  <script src="{{ asset('assets/js/demo/chart-area-demo.js') }}"></script>
-  <script src="{{ asset('assets/js/demo/chart-pie-demo.js') }}"></script>
   
   <!-- alert -->
   <script src="{{ asset('assets/lib/SweetAlert2/sweetalert2.js') }}"></script>
@@ -327,25 +320,10 @@
   $('#postAnggota').on('submit', function(e) {
       e.preventDefault();
 
-      // var current = $(this).val();
-      // var destination = $(this).val();
-      // var departure_date = $(this).val();
-      // var trip_duration = $(this).val();
-      // var note = $(this).val();
-
-      // $.ajaxSetup({
-      //     headers: {
-      //       'X-CSRF-TOKEN': $('inpt[name="__token"]').attr('value')
-      //     }
-      // });
-
       $.ajax({
           url: "{{ url('/d_anggota') }}",
           method: 'post',
           data: $('#postAnggota').serialize(),
-          // headers: {
-          //   'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-          // },
 
           // dataType: 'JSON',
           cache: false,
@@ -361,12 +339,6 @@
             res = xhr.responseJSON;
             console.log(res);
             if ($.isEmptyObject(res) == false) {
-              // $.each(res.errors, function(key, val) {
-              //   text += val + "\n"
-              // });
-              // Swal.fire(
-              //   "Invalid!", text, "error"
-              // );
               $.each(res.errors, function(key, val) {
                 Swal.fire("Invalid!", val, "error");
               });
@@ -374,12 +346,4 @@
           }
       });
   });
-
-  // $(function() {
-  //       $('#tambahAnggotaModal').on('hidden.bs.modal', function(){
-  //           $(this).removeData('bs.modal');
-  //       });
-  //   });
-  // $modal = $('#tambahAnggotaModal');
-  //   $modal.find('#postAnggota')[0].reset();
 </script>

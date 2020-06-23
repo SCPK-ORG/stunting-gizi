@@ -1,0 +1,4 @@
+SELECT b.id_balita, b.nama, b.jenis_kelamin, k.id, MAX(k.umur), MAX(k.berat_badan), MAX(k.id_antopometri), MAX(k.z_score), MIN(k.status_gizi)
+FROM kms k JOIN balitas b
+ON k.id_balita = b.id_balita
+GROUP BY b.id_balita

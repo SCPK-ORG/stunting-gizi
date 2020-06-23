@@ -8,6 +8,8 @@ use App\Kms;
 use App\Balita;
 use App\Antopometri;
 
+use DB;
+
 class GrafiksController extends Controller
 {
     /**
@@ -17,13 +19,19 @@ class GrafiksController extends Controller
      */
     public function index()
     {
-        $kms = Kms::leftJoin('balitas', 'kms.id_balita', '=', 'balitas.id_balita')
-                    ->select('kms.*', 'balitas.*')
+        // $kms = Kms::leftJoin('balitas', 'kms.id_balita', '=', 'balitas.id_balita')
+        //             ->select('kms.*', 'balitas.*')
+        //             ->get();
+        
+        $kms = DB::table('kms')->leftJoin('balitas', 'kms.id_balita', '=', 'balitas.id_balita')
+                    ->select(DB::raw('balitas.id_balita, balitas.nama, balitas.jenis_kelamin, MAX(kms.id) as id, MAX(kms.umur) as umur, MAX(kms.berat_badan) as berat_badan, MAX(kms. id_antopometri) as is_antopometri, MAX(kms.z_score) as z_score, MIN(kms.status_gizi) as status_gizi'))
+                    ->groupBy('balitas.id_balita')
+                    ->orderBy('balitas.nama', 'ASC')
                     ->get();
         
         // dd($kms);
         $balitas = Balita::all();
-        return view('admin.d_grafik', compact('kms', 'balitas'));
+        return view('admin.d_graf', compact('kms', 'balitas'));
     }
 
     /**
@@ -109,7 +117,7 @@ class GrafiksController extends Controller
             $nama = [];
             $statusgizi = [];
             foreach ($kms as $key) {
-                $categories[] = $month = date("M",strtotime($key->created_at));
+                $categories[] = $month = date("F",strtotime($key->created_at));
                 $berat[] = $key->berat_badan;
                 $nama[] = $key->nama;
                 $statusgizi[] = $key->status_gizi;
@@ -119,7 +127,7 @@ class GrafiksController extends Controller
                 $nama = $nama[0];
             else
                 $nama = "";
-            // dd($nama);
+            // dd($kms);
             return response()->json(['kms' => $kms->all(), 'categories' => $categories, 'berat' => $berat, 'nama' => $nama, 'statusgizi' => $statusgizi], 200);
         } catch (Exception $e) {
             // dd($e);
